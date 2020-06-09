@@ -1,0 +1,23 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.2.1'
+}
+
+
+//发布构件
+uploadArchives {
+    repositories {
+
+        mavenDeployer {
+            pom.groupId = 'com.chumfuchiu.code.plugin'
+            pom.artifactId = 'template'
+            pom.version = 1.0
+            repository(url: uri(rootDir.toURI().toString() + 'localMaven/repos'))
+        }
+    }
+}
