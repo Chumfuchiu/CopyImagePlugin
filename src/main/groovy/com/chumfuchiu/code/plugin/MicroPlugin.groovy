@@ -56,9 +56,14 @@ class MicroPlugin implements Plugin<Project> {
                     variant.allRawAndroidResources.files.each {
                         copyImageFile(it, 0)
                     }
+                    String projectDir = mProject.findProject(":MicroPlugin").projectDir
                     markupBuilder.ImageSize {
-                        allImageFiles.each {
-                            markupBuilder.item(name: it.getName(), size: "${it.length() / 1024} kb")
+                        allImageFiles.each {File itf ->
+                            markupBuilder.item(name: itf.getName(), size: "${itf.length() / 1024} kb")
+                            mLogger.warn("${projectDir}/ImageOptim.app/Contents/MacOS/ImageOptim ${itf.path}")
+                            exec {
+                                "${projectDir}/ImageOptim.app/Contents/MacOS/ImageOptim ${itf.path}".execute()
+                            }
                         }
                     }
                 }
